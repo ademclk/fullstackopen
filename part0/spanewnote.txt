@@ -1,0 +1,12 @@
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new note_spa
+
+note over browser:
+browser starts executing js-code
+that requests JSON data from server 
+end note
+
+server-->browser: Server responds with status code 201 (created)
+
+note over browser:
+Page didn't reloaded.
+end note
