@@ -10,16 +10,23 @@ const App = () => {
 
     const addNote = (event) => {
         event.preventDefault();
-        const personObject = {
-            name: newName,
+
+        for (const p of persons) {
+            let isPresent = p.name === newName;
+            if (isPresent) {
+                alert(`${newName} already exists.`)
+            } else {
+                const personObject = {
+                    name: newName,
+                }
+                setPersons(persons.concat(personObject));
+                setNewName('');
+            }
         }
-        setPersons(persons.concat(personObject));
-        setNewName('');
     }
 
     const handleNameChange = (event) => {
         setNewName(event.target.value);
-
     }
 
     return (
