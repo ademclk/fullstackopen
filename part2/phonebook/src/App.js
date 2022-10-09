@@ -1,5 +1,9 @@
 import {useState} from "react";
 
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import PersonList from './components/PersonList'
+
 const App = () => {
 
     const [persons, setPersons] = useState([
@@ -19,7 +23,6 @@ const App = () => {
         for (let i = 0; i < persons.length; i++) {
             if (persons[i].name === newName) {
                 isPresent = true;
-                return alert(`${newName} already exists.`);
             }
         }
 
@@ -35,7 +38,7 @@ const App = () => {
         else {
             setNewName('');
             setNewPhone('');
-            return 0;
+            return alert(`${newName} already exists.`);
         }
     }
 
@@ -59,36 +62,24 @@ const App = () => {
         <div className="App">
             <h2>Phonebook</h2>
                 <h4>Filter shown with <span> </span>
-                    <input
-                        value={newFilter}
-                        onChange={handleFilterChange}
-                    />
+                   <Filter
+                       filter={newFilter}
+                       filterHandler={handleFilterChange}
+                   />
                 </h4>
             <h2>Add a new</h2>
-            <form onSubmit={addPerson}>
-                <div>
-                    name:
-                    <input
-                        value={newName}
-                        onChange={handleNameChange}
-                    />
-                </div>
-                <div>
-                    phone:
-                    <input
-                        value={newPhone}
-                        onChange={handlePhoneChange}
-                    />
-                </div>
-                <div>
-                    <button type='submit'>Add</button>
-                </div>
-            </form>
+                <PersonForm
+                    submit={addPerson}
+                    nameValue={newName}
+                    phoneValue={newPhone}
+                    nameHandler={handleNameChange}
+                    phoneHandler={handlePhoneChange}
+                />
             <h2>Numbers</h2>
             <ul>
-                {filteredPersons.map(p => {
-                    return <li key={p.name}>{p.name} {p.phone}</li>
-                })}
+                <PersonList
+                    persons={filteredPersons}
+                />
             </ul>
         </div>
     );
