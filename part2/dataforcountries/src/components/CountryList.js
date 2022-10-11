@@ -1,37 +1,22 @@
 import React from "react";
+import Detail from "./Detail"
 
-const CountryList = ({data}) => {
+const CountryList = ({data, setFilter}) => {
+
     if (data.length > 10) {
         return <h4>Too many matches, please provide more specific filter.</h4>
     } else if (data.length === 1) {
-        let languagesArray = [];
-        for (const [ , value] of Object.entries(data[0].languages)) {
-            languagesArray.push(value);
-        }
-        return (
-            <div>
-                <h2>{data[0].name.common}</h2>
-                <p>Capital {data[0].capital}</p>
-                <p>Area {data[0].area}</p>
-
-                <h4>languages: </h4>
-                <ul>
-                    {languagesArray.map(lang => {
-                        return <li>{lang}</li>
-                    })}
-                </ul>
-                <div>
-                    <img src={data[0].flags.png} alt={`${data[0].name.common}`} />
-                </div>
-            </div>
-
-        );
+       return <Detail country = {data}/>
     } else {
         return (
             <div>
                 <ul>
-                    {data.map((country, index) => {
-                        return <li key={index}>{country.name.common}</li>
+                    {data.map((country) => {
+                        return (
+                            <div key={country.name.official}>
+                                <li >{country.name.common}<span> </span><button onClick={() => setFilter([country])}>show</button></li>
+                            </div>
+                        )
                     })}
                 </ul>
             </div>

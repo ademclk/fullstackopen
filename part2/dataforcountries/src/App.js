@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import SearchBar from "./components/SearchBar";
 import CountryList from "./components/CountryList";
 import axios from "axios";
 
 const App = () => {
 
     const [countries, setCountries] = useState([])
+    const [countriesFiltered, setCountriesFiltered] = useState([]);
     const [newFilter, setNewFilter] = useState('')
 
     axios
@@ -15,21 +15,24 @@ const App = () => {
         })
 
     const handleSearchChange = (event) => {
-        setNewFilter(event.target.value)
+        const search = event.target.value;
+        setNewFilter(search);
+        setCountriesFiltered(
+            countries.filter(c =>
+                c.name.common.toLowerCase().includes(search.toLowerCase())
+            )
+        );
     }
 
-    const filteredCountries = countries.filter(c => {
-        return c.name.common.toLowerCase().includes(newFilter.toLowerCase());
-    })
 
     return (
         <div className="App">
-            <SearchBar
-                filter={newFilter}
-                eventHandler={handleSearchChange}
-            />
+            <div>
+                Find countries <input value={newFilter} onChange={handleSearchChange} />
+            </div>
             <CountryList
-                data={filteredCountries}
+                data={countriesFiltered}
+                setFilter={setCountriesFiltered}
             />
         </div>
     );
